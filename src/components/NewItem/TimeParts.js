@@ -22,7 +22,7 @@ const TimeParts = ({ eventTime }) => {
 
         }, 1000);
         return () => clearInterval(timeID);
-    }, []);
+    }, [sampleDate]);
 
     return (
         <>

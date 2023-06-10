@@ -1,11 +1,6 @@
 import {
   Box,
-  Typography,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
+  Typography
 } from "@mui/material";
 import {
   BoxDate,
@@ -39,7 +34,7 @@ const NewItem = () => {
         console.table(events);
       }
     );
-  }, [setUserEvents]);
+  }, [setUserEvents, userId]);
 
   const handlePostClick = () => {
     setOpen(true);

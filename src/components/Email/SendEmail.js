@@ -1,14 +1,14 @@
 // import React, { useEffect } from 'react';
 // import sgMail from '@sendgrid/mail';
 
-// const SendEmail = () => {
+// const  SendEmail = () => {
 //   useEffect(() => {
 //     const sendEmail = async () => {
-//       sgMail.setApiKey('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');
+//       sgMail.setApiKey('{USE_YOUR_KEY}');
 
 //       const msg = {
-//         to: 'hakam.risha@gmail.com',
-//         from: 'hakam.risha@gmail.com',
+//         to: '{EMAIL}',
+//         from: '{EMAIL}',
 //         subject: 'Hello from your React app',
 //         text: 'This is the email content.',
 //       };

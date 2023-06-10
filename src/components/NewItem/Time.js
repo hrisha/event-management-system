@@ -4,7 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { StaticDateTimePicker } from "@mui/x-date-pickers/StaticDateTimePicker";
 import { useContext, useState } from "react";
-import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { firestore } from "../../firebase";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { CostumeInputDialog, CustomTextareaAutosize } from "./Style";
