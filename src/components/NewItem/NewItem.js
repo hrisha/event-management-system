@@ -13,14 +13,20 @@ import { OpenContext } from "./OpenContext";
 import { collection, onSnapshot } from "firebase/firestore";
 import { firestore } from "../../firebase";
 import TimeParts from "./TimeParts";
+import { useNavigate } from "react-router";
 
 const NewItem = () => {
   const [show, setShow] = useState(false);
   const { setOpen } = useContext(OpenContext);
   const [userEvents, setUserEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState({});
+  const history = useNavigate();
 
   let userId = sessionStorage.getItem("userId");
+
+  if (userId === 'null') {
+    history("/");
+  }
 
   useEffect(() => {
     return onSnapshot(

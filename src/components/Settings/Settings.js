@@ -5,22 +5,29 @@ import { InputCustom } from "./style";
 import { data } from "./data";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../../firebase";
+import { useNavigate } from "react-router";
 
 const Settings = () => {
   const [profileSettings, setProfileSettings] = useState({
     phone: "",
     email: "",
-    isEmailEnabled : false,
+    isEmailEnabled: false,
     isPhoneEnabled: false
   });
-console.log(profileSettings)
+
+  const history = useNavigate();
+
   let userId = sessionStorage.getItem("userId");
+
+  if (userId === 'null') {
+    history("/");
+  }
 
   useEffect(() => {
     const getUserData = async () => {
       try {
         const userDoc = await getDoc(doc(firestore, "users", userId));
-        
+
         if (userDoc.exists()) {
           setProfileSettings(userDoc.data().settings);
         }
@@ -29,25 +36,25 @@ console.log(profileSettings)
       }
     };
     getUserData();
-  }, [setProfileSettings,userId]);
+  }, [setProfileSettings, userId]);
 
   const handleSave = async () => {
-    await updateDoc(doc(firestore, "users", userId), { settings: profileSettings});
-    }
+    await updateDoc(doc(firestore, "users", userId), { settings: profileSettings });
+  }
 
-    const handleInputChange = (e) => {
-      setProfileSettings({
-        ...profileSettings,
-        [e.target.name]: e.target.value,
-      });
-    };
+  const handleInputChange = (e) => {
+    setProfileSettings({
+      ...profileSettings,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    const handleSwitchChange = (e) => {
-      setProfileSettings({
-        ...profileSettings,
-        [e.target.name]: e.target.checked,
-      });
-    };
+  const handleSwitchChange = (e) => {
+    setProfileSettings({
+      ...profileSettings,
+      [e.target.name]: e.target.checked,
+    });
+  };
 
   return (
     <MainBox>
@@ -58,7 +65,7 @@ console.log(profileSettings)
             <label style={{ marginRight: "10px", color: "#3d4451" }}>
               {label}
             </label>
-            {tag === "InputCustom" ? <InputCustom name={name} value={profileSettings[name]} type={type} onChange={handleInputChange}/> : <Switch name={name} checked={profileSettings[name]} onChange={handleSwitchChange} />}
+            {tag === "InputCustom" ? <InputCustom name={name} value={profileSettings[name]} type={type} onChange={handleInputChange} /> : <Switch name={name} checked={profileSettings[name]} onChange={handleSwitchChange} />}
           </Box>
         );
       })}

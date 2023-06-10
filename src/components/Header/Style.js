@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
 export const MainBoxHeader = styled(Box)(({ theme }) => ({
@@ -20,4 +20,8 @@ export const LinkPages = styled(NavLink)(({ theme }) => ({
     backgroundColor: "#64748b",
     padding: "10px 20px",
   },
+}));
+
+export const Logout = styled(Typography)(({ theme }) => ({
+  marginLeft:"auto", marginRight:"20px", cursor:"pointer",
 }));

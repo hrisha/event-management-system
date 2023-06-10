@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ButtonSubmit, InputCustom, MainBox, Title } from "../SignUp/Style";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../../firebase";
-// import { updateEmail } from "firebase/auth"; TODO : Update email in firebase
+import { useNavigate } from "react-router";
 
 const Profile = () => {
   const [edit, setEdit] = useState(true);
@@ -12,7 +12,13 @@ const Profile = () => {
     email: "",
   });
 
+  const history = useNavigate();
+
   let userId = sessionStorage.getItem("userId");
+
+  if (userId === 'null') {
+    history("/");
+  }
   useEffect(() => {
     const getUserData = async () => {
       try {

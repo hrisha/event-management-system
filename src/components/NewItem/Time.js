@@ -9,6 +9,7 @@ import { firestore } from "../../firebase";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { CostumeInputDialog, CustomTextareaAutosize } from "./Style";
 import { OpenContext } from "./OpenContext";
+import { useNavigate } from "react-router";
 
 export default function DialogEvent() {
   // const [selectedTime, setSelectedTime] = useState(dayjs("2022-04-17T15:30"));
@@ -21,7 +22,13 @@ export default function DialogEvent() {
     isCompleted : false
   });
 
+  const history = useNavigate();
+
   let userId = sessionStorage.getItem("userId");
+
+  if (userId === 'null') {
+    history("/");
+  }
 
   const handleInputChange = (e) => {
     setEventObject({
