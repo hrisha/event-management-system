@@ -1,42 +1,67 @@
-import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
 import { BoxReport } from "./Style";
+import { collection, onSnapshot } from "@firebase/firestore";
+import { useContext, useEffect, useState } from "react";
+import { firestore } from "../../firebase";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First name", width: 130 },
-  { field: "lastName", headerName: "Last name", width: 130 },
+  { field: "eventTitle", headerName: "Title", width: 200 },
+  { field: "eventTime", headerName: "Event Time", width: 200 },
   {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 90,
+    field: "eventStatus",
+    headerName: "Status",
+    width: 130,
   },
   {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
+    field: "description",
+    headerName: "Description",
+    width: 300,
+  }
 ];
 
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+// const rows = [
+//   { id: 1, eventTime: "Snow", eventTitle: "Jon", eventStatus: 35 },
+//   { id: 2, eventTime: "Lannister", eventTitle: "Cersei", age: 42 },
+//   { id: 3, eventTime: "Lannister", eventTitle: "Jaime", age: 45 },
+//   { id: 4, eventTime: "Stark", eventTitle: "Arya", age: 16 },
+//   { id: 5, eventTime: "Targaryen", eventTitle: "Daenerys", age: null },
+//   { id: 6, eventTime: "Melisandre", eventTitle: null, age: 150 },
+//   { id: 7, eventTime: "Clifford", eventTitle: "Ferrara", age: 44 },
+//   { id: 8, eventTime: "Frances", eventTitle: "Rossini", age: 36 },
+//   { id: 9, eventTime: "Roxie", eventTitle: "Harvey", age: 65 },
+// ];
 
 export default function Reports() {
+  const [rows, setRows] = useState([]);
+  let userId = sessionStorage.getItem("userId");
+
+  useEffect(() => {
+    return onSnapshot(
+      collection(firestore, "users", userId, "events"),
+      (snapshot) => {
+        const events = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        let eventsArray = [];
+        let i=0;
+        events.forEach(event => {
+          eventsArray.push({
+            id: 1 + i, 
+            eventTime: event.time, 
+            eventTitle: event.title, 
+            eventStatus: event.isCompleted || (new Date(event.time) < new Date()) ? "Completed" : "Pending",
+            description: event.description
+          });
+          i++;
+        });
+        setRows(eventsArray);
+        console.table(events);
+      }
+    );
+  }, [setRows, userId]);
+
   return (
     <BoxReport>
       <DataGrid

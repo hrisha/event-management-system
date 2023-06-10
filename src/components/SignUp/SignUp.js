@@ -1,12 +1,11 @@
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
-import { ref, push, child, update, set } from "firebase/database";
+import { createUserWithEmailAndPassword} from "firebase/auth";
 
 import { ButtonSubmit, InputCustom, MainBox, Title } from "./Style";
-import auth, { database, firestore } from "../../firebase";
+import auth, { firestore } from "../../firebase";
 import { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
-import { ukUA } from "@mui/material/locale";
-import { FormControl } from "@mui/material";
+import { doc, setDoc } from "firebase/firestore";
+
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [userInfo, setUserInfo] = useState({
@@ -14,6 +13,8 @@ const SignUp = () => {
     email: "",
     password: "",
   });
+
+  const history = useNavigate();
 
   const handleInput = (e) => {
     setUserInfo({
@@ -35,11 +36,18 @@ const SignUp = () => {
       const { user } = userCredentials;
       debugger;
 
-      let test = await addDoc(collection(firestore, "users"), {
+      await setDoc(doc(firestore, "users", user.uid), {
         fullName: userInfo.fullName,
         email: userInfo.email,
         userId: user.uid,
+        settings : {
+          phone: "",
+          email: userInfo.email,
+          isEmailEnabled : false,
+          isPhoneEnabled: false
+        }
       });
+      history("/");
 
     } catch (error) {
       console.error("Error :", error);

@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { Box, Typography } from "@mui/material";
 
-const Details = () => {
+const Details = ({event}) => {
   return (
     <Box
       flex="1"
@@ -13,11 +13,12 @@ const Details = () => {
       borderRadius="5px"
       marginRight="10px"
     >
-      <Typography fontSize="30px">Item 1</Typography>
-      <Typography bgcolor="#fff" borderRadius="5px" marginTop="20px">
-        Description
+      <Typography fontSize="30px">{event.title}</Typography>
+      <Typography bgcolor="#fff" borderRadius="5px" marginTop="20px" minHeight="100px" textAlign="left" padding="10px">
+        {event.description}
       </Typography>
       <FormControlLabel label="Completed" control={<Checkbox />} />
+      <Typography fontSize="30px">{event.time}</Typography>
     </Box>
   );
 };

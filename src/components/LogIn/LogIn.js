@@ -32,7 +32,8 @@ const handleSubmit = async (e) => {
   debugger;
   console.log(userInfo);
   signInWithEmailAndPassword(auth, userInfo.email, userInfo.password)
-  .then(() => {
+  .then((userCred) => {
+    sessionStorage.setItem("userId",userCred.user.uid);
     history("/new-item")
   })
   .catch((error) => {

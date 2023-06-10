@@ -7,6 +7,7 @@ import NewItem from "../NewItem/NewItem";
 import Profile from "../Profile/Profile";
 import Layout from "./Layout";
 import Reports from "../Reports/Reports";
+import { OpenProvider } from "../NewItem/OpenContext";
 
 const router = () => {
   return (
@@ -16,7 +17,7 @@ const router = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<Layout />}>
           <Route path="/settings" element={<Settings />} />
-          <Route path="/new-item" element={<NewItem />} />
+          <Route path="/new-item" element={<OpenProvider><NewItem /></OpenProvider>} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/reports" element={<Reports />} />
         </Route>
